@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+    nginx:
+        container_name: alex_nginx
+        build:
+            context: .
+            dockerfile: docker/nginx/Dockerfile
+        ports:
+            - 8088:80
+        links:
+            - app
+        volumes:
+            - ./:/var/www
+    app:
+        container_name: alex_app
+        build:
+            context: .
+            dockerfile: docker/php-fpm/Dockerfile
+        environment:
+            SERVICE_NAME: app
+            SERVICE_TAG: dev
+        volumes:
+            - ./:/var/www
+            - ./docker/php-fpm/php8.0.ini:/usr/local/etc/php/php.ini
+        links:
+            - mysql
+    mysql:
+        image: mysql:5.7
+        ports:
+            - 33066:3306
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=testdb
+        volumes:
+            - ./docker/mysql/data:/var/lib/mysql
