@@ -13,14 +13,14 @@ include 'conn.php';
 //var_dump($users);
 
 function selectq() {
-  
+
 $name = $_POST['name'];
 $pass = $_POST['pass'];
 $email = $_POST['email'];
 
 $db = DB::getInstance();
 
-$sql = $db-> prepare ("INSERT INTO users (name, password, email) VALUES ('$name', '$pass', '$email')";
+$sql = $db-> prepare ("INSERT INTO users (name, password, email) VALUES ('$name', '$pass', '$email'");
 $stmt = $db->prepare($sql);
 $stmt->bindParam(':email', $email, PDO::PARAM_STR);
 $stmt->bindParam(':password', $password, PDO::PARAM_STR);
